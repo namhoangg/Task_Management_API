@@ -86,12 +86,12 @@ module.exports.forgotPassword = async (req, res) => {
       const forgot = new ForgotPassword({
         email,
         otp,
-        expireAt: Date.now(),
+        expireAt: Date.now()+180000,
       });
       await forgot.save();
       const subject = "Tính năng quên mật khẩu: ";
       const html = `<h1>Mã OTP của bạn là ${otp}</h1>`;
-      mailHelper.sendMail(email, subject, html);
+      await mailHelper.sendMail(email, subject, html);
       res.json({
         code: 200,
         email: email,
